@@ -55,7 +55,10 @@ class _SchedulePageState extends State<SchedulePage> {
     _isListeningNotifier.value = false;
     if (_queryNotifier.value != '') {
       final vm = context.read<ScheduleViewModel>();
-      String? results = await vm.generateScheduleFromQuery(userId!, _queryNotifier.value);
+      String? results = await vm.generateScheduleFromQuery(
+        userId!,
+        _queryNotifier.value,
+      );
 
       if (results == null || results.isEmpty) {
         setState(() {
@@ -78,10 +81,7 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: AppBar(
         title: const Text(
           'My Schedule',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.grey[900],
@@ -90,7 +90,7 @@ class _SchedulePageState extends State<SchedulePage> {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Settings',
-            onPressed: () => showAddScheduleModal(context, userId!)
+            onPressed: () => showAddScheduleModal(context, userId!),
           ),
         ],
       ),
@@ -98,12 +98,12 @@ class _SchedulePageState extends State<SchedulePage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            AiVoice(messageNotifier: _responseNotifier, loadingNotifier: _isListeningNotifier),
+            AiVoice(
+              messageNotifier: _responseNotifier,
+              loadingNotifier: _isListeningNotifier,
+            ),
             SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.5,
               child: Consumer<ScheduleViewModel>(
                 builder: (context, vm, build) {
                   return StreamBuilder<List<Schedule>>(
@@ -117,18 +117,19 @@ class _SchedulePageState extends State<SchedulePage> {
                       }
                       final schedules = snapshot.data!;
                       return Scrollbar(
-                          child: ListView.builder(
-                            shrinkWrap: true, // If inside another scrollable (like SingleChildScrollView), set this true
-                            itemCount: schedules.length,
-                            itemBuilder: (context, index) {
-                              final schedule = schedules[index];
-                              return ScheduleCard(schedule: schedule);
-                            },
-                          )
+                        child: ListView.builder(
+                          shrinkWrap:
+                              true, // If inside another scrollable (like SingleChildScrollView), set this true
+                          itemCount: schedules.length,
+                          itemBuilder: (context, index) {
+                            final schedule = schedules[index];
+                            return ScheduleCard(schedule: schedule);
+                          },
+                        ),
                       );
                     },
                   );
-                }
+                },
               ),
             ),
           ],
@@ -145,11 +146,7 @@ class _SchedulePageState extends State<SchedulePage> {
             onPressed: null,
             shape: CircleBorder(),
             backgroundColor: Color(0xFFBDF152),
-            child: Icon(
-                Icons.mic,
-                size: 36,
-                color: Color(0xFF000000)
-            ),
+            child: Icon(Icons.mic, size: 36, color: Color(0xFF000000)),
           ),
         ),
       ),

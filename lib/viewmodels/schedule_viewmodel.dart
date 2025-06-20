@@ -10,7 +10,7 @@ class ScheduleViewModel extends ChangeNotifier {
   final ChatApi _chatApi = ChatApi();
   final ScheduleService _scheduleService = ScheduleService();
 
-  List<Schedule>_schedules = [];
+  List<Schedule> _schedules = [];
   List<Schedule> get schedules => _schedules;
 
   bool _isLoading = false;
@@ -23,21 +23,19 @@ class ScheduleViewModel extends ChangeNotifier {
   final userId;
 
   ScheduleViewModel(this.userId) {
-    _scheduleStream = _scheduleService
-        .getSchedulesForUser(userId)
-        .map((schedules) {
+    _scheduleStream = _scheduleService.getSchedulesForUser(userId).map((
+      schedules,
+    ) {
       schedules.sort((a, b) => a.startTime.compareTo(b.startTime));
       return schedules;
     });
   }
-  
+
   Future<void> fetchSchedules(String userId) async {
     _isLoading = true;
     notifyListeners();
     try {
-      _schedules = await _scheduleService
-          .getSchedulesForUser(userId)
-          .first;
+      _schedules = await _scheduleService.getSchedulesForUser(userId).first;
     } catch (e) {
       debugPrint("Error fetching tasks: $e");
     }
@@ -54,10 +52,12 @@ class ScheduleViewModel extends ChangeNotifier {
     notifyListeners();
 
     QueryToScheduleResponseDto? responseDto;
-    Map<String, dynamic> jsonResponse  = {};
+    Map<String, dynamic> jsonResponse = {};
     String? response;
     try {
-      jsonResponse = await _chatApi.postChat(QueryToScheduleRequestDto(user_id: userId, query: query));
+      jsonResponse = await _chatApi.postChat(
+        QueryToScheduleRequestDto(user_id: userId, query: query),
+      );
       responseDto = QueryToScheduleResponseDto.fromJson(jsonResponse);
       response = responseDto.toJson()['response'];
     } catch (e) {

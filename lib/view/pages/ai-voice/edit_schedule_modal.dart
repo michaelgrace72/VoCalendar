@@ -7,9 +7,14 @@ import '../../../viewmodels/schedule_viewmodel.dart';
 import 'date_form_field.dart';
 import 'date_time_controller.dart';
 
-Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) async {
+Future<void> showEditScheduleModal(
+  BuildContext context,
+  Schedule schedule,
+) async {
   final eventNameController = TextEditingController(text: schedule.eventName);
-  final startTimeController = DateTimeController(schedule.startTime as Timestamp?);
+  final startTimeController = DateTimeController(
+    schedule.startTime as Timestamp?,
+  );
   final endTimeController = DateTimeController(schedule.endTime as Timestamp?);
   final viewModel = Provider.of<ScheduleViewModel>(context, listen: false);
 
@@ -23,7 +28,9 @@ Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) asyn
           return Container(
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.95),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
             ),
             padding: EdgeInsets.only(
               left: 20,
@@ -37,12 +44,14 @@ Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) asyn
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Text('Create Event',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFBDF152),
-                        )),
+                    child: Text(
+                      'Create Event',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFBDF152),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   TextField(
@@ -55,18 +64,30 @@ Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) asyn
                       fillColor: Colors.white.withOpacity(0.05),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   // Place your DateTimePickerFormField here, e.g.:
-                  DateTimePickerFormField(controller: startTimeController, label: "Start Time"),
-                  DateTimePickerFormField(controller: endTimeController, label: "End Time"),
+                  DateTimePickerFormField(
+                    controller: startTimeController,
+                    label: "Start Time",
+                  ),
+                  DateTimePickerFormField(
+                    controller: endTimeController,
+                    label: "End Time",
+                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
@@ -108,8 +129,14 @@ Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) asyn
                           return;
                         }
 
-                        final start = startTimeController.requireTimestamp("Start Time").toDate();
-                        final end = endTimeController.requireTimestamp("End Time").toDate();
+                        final start =
+                            startTimeController
+                                .requireTimestamp("Start Time")
+                                .toDate();
+                        final end =
+                            endTimeController
+                                .requireTimestamp("End Time")
+                                .toDate();
                         if (start.isAfter(end) || start.isAtSameMomentAs(end)) {
                           Flushbar(
                             message: "Start time must be before end time",
@@ -125,8 +152,12 @@ Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) asyn
                         final newSchedule = Schedule(
                           id: schedule.id,
                           eventName: eventNameController.text,
-                          startTime: startTimeController.requireTimestamp("Start Time"),
-                          endTime: endTimeController.requireTimestamp("End Time"),
+                          startTime: startTimeController.requireTimestamp(
+                            "Start Time",
+                          ),
+                          endTime: endTimeController.requireTimestamp(
+                            "End Time",
+                          ),
                           userId: schedule.userId,
                           createdAt: schedule.createdAt,
                           updatedAt: Timestamp.now(),
@@ -134,7 +165,10 @@ Future<void> showEditScheduleModal(BuildContext context, Schedule schedule) asyn
                         viewModel.updateSchedule(newSchedule);
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Create', style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Create',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ],

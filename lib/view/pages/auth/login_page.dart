@@ -4,11 +4,11 @@ import 'package:flutterapi/components/my_elevated_button.dart';
 import 'package:flutterapi/components/square_tile.dart';
 import 'package:flutterapi/helper/top_snackbar.dart';
 import 'package:flutterapi/providers/user_provider.dart';
+import 'package:flutterapi/services/auth/auth_gate.dart';
 import 'package:flutterapi/services/auth/auth_service.dart';
 import 'package:flutterapi/view/pages/auth/forgot_password_page.dart';
 import 'package:flutterapi/view/pages/auth/register_page.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:flutterapi/view/widgets/navigation_menu.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -317,7 +317,6 @@ class _LoginPageState extends State<LoginPage> {
         passwordController.text,
       );
 
-      //
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       await userProvider.loadUserDataByEmail(emailController.text);
       final userName = userProvider.userData['name'] ?? 'User';
@@ -332,7 +331,7 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => NavigationMenu()),
+        MaterialPageRoute(builder: (context) => AuthGate()),
       );
     } catch (e) {
       showTopSnackbar(

@@ -2,8 +2,19 @@
 
 Vocalendar is an intelligent voice-based calendar application that allows users to manage their schedule naturally using voice commands. Powered by advanced Large Language Models (LLM) like GPT, Vocalendar understands everyday language and transforms it into structured calendar entries — simplifying your daily planning like never before.
 
+## 🗓️ Vocalendar
+
+Vocalendar is an intelligent voice-based calendar application that allows users to manage their schedule naturally using voice commands. Powered by advanced Large Language Models (LLM) like GPT, Vocalendar understands everyday language and transforms it into structured calendar entries — simplifying your daily planning like never before.
+
 ## Team
 
+## Team
+
+| NRP        | Nama                          |
+| ---------- | ----------------------------- |
+| 5025211158 | Ghifari Maaliki Syafa Syuhada |
+| 5025221006 | Ardhika Krishna Wijaya        |
+| 5025221037 | Mikha Gracia Sugiono          |
 | NRP        | Nama                          |
 | ---------- | ----------------------------- |
 | 5025211158 | Ghifari Maaliki Syafa Syuhada |
@@ -42,6 +53,7 @@ Vocalendar is an intelligent voice-based calendar application that allows users 
 | Task Labeling (CRUD)      | Ardhika         |
 
 ## Documentation
+
 <table>
   <tr align="center">
     <th>Welcome</th>
@@ -106,5 +118,3 @@ Vocalendar is an intelligent voice-based calendar application that allows users 
     <td><img src="https://github.com/user-attachments/assets/60c715ef-91bd-4763-8e48-504f5cd997e9" alt="Delete User" width="250"></td>
   </tr>
 </table>
-
-
