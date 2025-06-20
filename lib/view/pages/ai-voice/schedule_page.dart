@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterapi/view/pages/ai-voice/add_schedule_modal.dart';
 import 'package:flutterapi/view/pages/ai-voice/ai_voice.dart';
 import 'package:flutterapi/view/pages/ai-voice/schedule_card.dart';
@@ -78,62 +79,106 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'My Schedule',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.grey[900],
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: 'Settings',
-            onPressed: () => showAddScheduleModal(context, userId!),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            AiVoice(
-              messageNotifier: _responseNotifier,
-              loadingNotifier: _isListeningNotifier,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: Consumer<ScheduleViewModel>(
-                builder: (context, vm, build) {
-                  return StreamBuilder<List<Schedule>>(
-                    stream: vm.scheduleStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No Events Found'));
-                      }
-                      final schedules = snapshot.data!;
-                      return Scrollbar(
-                        child: ListView.builder(
-                          shrinkWrap:
-                              true, // If inside another scrollable (like SingleChildScrollView), set this true
-                          itemCount: schedules.length,
-                          itemBuilder: (context, index) {
-                            final schedule = schedules[index];
-                            return ScheduleCard(schedule: schedule);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            height: 150.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+              gradient: LinearGradient(
+                colors: [const Color(0xFFBDF152), const Color(0xFF3F24E6)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
-          ],
-        ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 20.0.w,
+                right: 20.0.w,
+                top: 60.0.h,
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      'My Schedule',
+                      style: TextStyle(
+                        fontSize: 28.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: Icon(Icons.add, size: 30.sp, color: Colors.white),
+                      tooltip: 'Add Schedule',
+                      onPressed: () => showAddScheduleModal(context, userId!),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 20.h),
+
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    AiVoice(
+                      messageNotifier: _responseNotifier,
+                      loadingNotifier: _isListeningNotifier,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Consumer<ScheduleViewModel>(
+                        builder: (context, vm, build) {
+                          return StreamBuilder<List<Schedule>>(
+                            stream: vm.scheduleStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                return const Center(
+                                  child: Text('No Events Found'),
+                                );
+                              }
+                              final schedules = snapshot.data!;
+                              return Scrollbar(
+                                child: ListView.builder(
+                                  shrinkWrap:
+                                      true, // If inside another scrollable (like SingleChildScrollView), set this true
+                                  itemCount: schedules.length,
+                                  itemBuilder: (context, index) {
+                                    final schedule = schedules[index];
+                                    return ScheduleCard(schedule: schedule);
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: GestureDetector(
         onTapDown: (_) => _onHoldMic(),
